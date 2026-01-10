@@ -1,0 +1,48 @@
+services:
+  php:
+    image: php:8.2-cli
+    working_dir: /app
+    volumes:
+      - ./:/app
+    ports:
+      - "8000:8000"
+    command: php -S 0.0.0.0:8000 -t .
+
+  node:
+    image: node:20-alpine
+    working_dir: /app
+    volumes:
+      - ./:/app
+    ports:
+      - "4200:4200"
+      - "5173:5173"
+      - "3000:3000"
+    command: sh -c "tail -f /dev/null"
+
+  python:
+    image: python:3.12-slim
+    working_dir: /app
+    volumes:
+      - ./:/app
+    ports:
+      - "5000:5000"
+      - "8001:8000"
+    command: sh -c "tail -f /dev/null"
+
+  java:
+    image: eclipse-temurin:21-jdk
+    working_dir: /app
+    volumes:
+      - ./:/app
+    ports:
+      - "8080:8080"
+    command: sh -c "tail -f /dev/null"
+
+  go:
+    image: golang:1.22-alpine
+    working_dir: /app
+    volumes:
+      - ./:/app
+    ports:
+      - "8081:8080"
+    command: sh -c "tail -f /dev/null"
