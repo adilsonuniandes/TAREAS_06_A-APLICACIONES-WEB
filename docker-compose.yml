@@ -1,12 +1,14 @@
 services:
   php:
-    image: php:8.2-cli
+    build: .
     working_dir: /app
     volumes:
       - ./:/app
     ports:
       - "8000:8000"
-    command: php -S 0.0.0.0:8000 -t .
+    command: php -S 0.0.0.0:8000 -t /app
+    depends_on:
+      - sqlserver
 
   node:
     image: node:20-alpine
@@ -46,3 +48,17 @@ services:
     ports:
       - "8081:8080"
     command: sh -c "tail -f /dev/null"
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "P@ssw0rd123!"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserverdata:/var/opt/mssql
+
+volumes:
+  sqlserverdata:

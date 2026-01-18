@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CRUD Países</title>
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+<header class="topbar">
+    <div class="topbar__inner">
+        <div>
+            <h1 class="title">CRUD Países</h1>
+            <p class="subtitle">Autor: Adilson Chico Ortiz</p>
+        </div>
+        <button id="btnNuevo" class="btn btn--primary">+ Nuevo</button>
+    </div>
+</header>
+
+<main class="container">
+    <section class="card">
+        <div class="card__header">
+            <h2 class="card__title">Listado</h2>
+
+            <div class="toolbar">
+                <div class="search">
+                    <input id="txtBuscar" type="search" placeholder="Buscar por código o país..." />
+                </div>
+
+                <div class="pager">
+                    <button id="btnPrev" class="btn btn--ghost" type="button">Anterior</button>
+                    <span id="lblPage" class="pager__label">Página 1 de 1</span>
+                    <button id="btnNext" class="btn btn--ghost" type="button">Siguiente</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="loading" class="loading" hidden>
+            <div class="spinner"></div>
+            <span>Cargando datos...</span>
+        </div>
+
+        <div class="table-wrap">
+            <table class="table" id="tblPaises">
+                <thead>
+                <tr>
+                    <th style="width:120px;">Código</th>
+                    <th>País</th>
+                    <th style="width:220px;">Acciones</th>
+                </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <div id="empty" class="empty" hidden>
+            No hay resultados para mostrar.
+        </div>
+    </section>
+</main>
+
+<!-- MODAL: Nuevo / Editar -->
+<div id="modalForm" class="modal" aria-hidden="true">
+    <div class="modal__backdrop" data-close="true"></div>
+    <div class="modal__panel" role="dialog" aria-modal="true" aria-labelledby="modalFormTitle">
+        <div class="modal__header">
+            <h3 id="modalFormTitle" class="modal__title">Nuevo país</h3>
+            <button class="icon-btn" type="button" data-close="true" aria-label="Cerrar">✕</button>
+        </div>
+
+        <form id="frmPais" class="modal__body">
+            <div class="field">
+                <label for="Codigo">Código (ISO-2)</label>
+                <input id="Codigo" name="Codigo" maxlength="2" placeholder="EC" autocomplete="off" required />
+                <small class="hint">2 letras. Ej: EC, AR, US.</small>
+            </div>
+
+            <div class="field">
+                <label for="Pais">País</label>
+                <input id="Pais" name="Pais" placeholder="Ecuador" autocomplete="off" required />
+            </div>
+
+            <div id="formError" class="form-error" hidden></div>
+
+            <div class="modal__footer">
+                <button type="button" class="btn btn--ghost" data-close="true">Cancelar</button>
+                <button type="submit" id="btnGuardar" class="btn btn--primary">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- MODAL: Confirmación Eliminar -->
+<div id="modalConfirm" class="modal" aria-hidden="true">
+    <div class="modal__backdrop" data-close="true"></div>
+    <div class="modal__panel modal__panel--sm" role="dialog" aria-modal="true" aria-labelledby="modalConfirmTitle">
+        <div class="modal__header">
+            <h3 id="modalConfirmTitle" class="modal__title">Confirmar eliminación</h3>
+            <button class="icon-btn" type="button" data-close="true" aria-label="Cerrar">✕</button>
+        </div>
+
+        <div class="modal__body">
+            <p id="confirmText" class="confirm-text">¿Desea eliminar este registro?</p>
+            <div class="confirm-meta" id="confirmMeta"></div>
+        </div>
+
+        <div class="modal__footer">
+            <button class="btn btn--ghost" type="button" data-close="true">Cancelar</button>
+            <button id="btnConfirmDelete" class="btn btn--danger" type="button">Eliminar</button>
+        </div>
+    </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" class="toast" hidden></div>
+
+<script src="home.js"></script>
+</body>
+</html>
