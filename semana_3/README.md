@@ -120,7 +120,7 @@ Responsabilidades:
 - Ejecutar API en puerto 5000
 
 Ejecución:
-chmod +x launchers/semana_3_backend.sh
+chmod +x launchers/semana_3.sh
 ./launchers/semana_3.sh
 
 ---
