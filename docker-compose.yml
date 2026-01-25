@@ -60,5 +60,23 @@ services:
     volumes:
       - sqlserverdata:/var/opt/mssql
 
+  dotnet:
+    image: mcr.microsoft.com/dotnet/sdk:8.0
+    working_dir: /src
+    volumes:
+      - ./:/src
+    ports:
+      - "5000:5000"
+    command: sh -c "tail -f /dev/null"
+    depends_on:
+      - sqlserver
+
+  web:
+    image: nginx:alpine
+    volumes:
+      - ./:/usr/share/nginx/html:ro
+    ports:
+      - "8000:80"
+
 volumes:
   sqlserverdata:

@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Semana 3 - CRUD Clientes</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+<nav class="nav-clean z-depth-0">
+    <div class="nav-wrapper container">
+        <a href="#!" class="brand-logo">
+            <i class="material-icons left">people</i>Clientes
+        </a>
+        <ul class="right">
+            <li>
+                <a id="btnNuevo" class="btn btn-primary waves-effect waves-light">
+                    <i class="material-icons left">add</i>Nuevo
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<main class="container page">
+    <div class="card card-clean">
+        <div class="card-content">
+
+            <div class="row row-tight">
+                <div class="input-field col s12 m7">
+                    <i class="material-icons prefix">search</i>
+                    <input id="txtBuscar" type="text" autocomplete="off" />
+                    <label for="txtBuscar">Buscar (empresa, identificación, nombres, apellidos, email)</label>
+                </div>
+
+                <div class="input-field col s12 m3">
+                    <select id="selPageSize">
+                        <option value="5">5</option>
+                        <option value="10" selected>10</option>
+                        <option value="20">20</option>
+                    </select>
+                    <label>Filas por página</label>
+                </div>
+
+                <div class="col s12 m2 right-align actions-top">
+                    <a id="btnRefrescar" class="btn-flat waves-effect">
+                        <i class="material-icons left">refresh</i>Refrescar
+                    </a>
+                </div>
+            </div>
+
+            <div id="loading" class="progress" style="display:none;">
+                <div class="indeterminate"></div>
+            </div>
+
+            <div id="errorBox" class="card-panel red lighten-5 red-text text-darken-4" hidden></div>
+
+            <!-- TABLA -->
+            <div class="table-wrap" id="tableWrap">
+                <table class="highlight responsive-table">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Empresa</th>
+                        <th>Identificación</th>
+                        <th>Nombres</th>
+                        <th>Apellidos</th>
+                        <th>Email</th>
+                        <th>Teléfono</th>
+                        <th>Cliente</th>
+                        <th class="th-actions">Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody id="tbody"></tbody>
+                </table>
+            </div>
+
+            <!-- EMPTY STATE (fuera de la tabla, controlado por display) -->
+            <div id="empty" class="empty-state" style="display:none;">
+                <i class="material-icons">info</i>
+                <span>No hay registros para mostrar.</span>
+            </div>
+        </div>
+
+        <div class="card-action pager">
+            <div id="pagerInfo" class="grey-text text-darken-1">—</div>
+            <div class="pager-controls">
+                <a id="btnPrev" class="btn-flat waves-effect"><i class="material-icons left">chevron_left</i>Anterior</a>
+                <span class="chip" id="pagerPage">1</span>
+                <a id="btnNext" class="btn-flat waves-effect">Siguiente<i class="material-icons right">chevron_right</i></a>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- MODAL -->
+<div id="modalCliente" class="modal modal-clean">
+    <div class="modal-content">
+        <h5 id="modalTitle">Nuevo cliente</h5>
+
+        <form id="frmCliente" class="row row-tight">
+            <input type="hidden" id="cliente_id" />
+
+            <div class="input-field col s12 m6">
+                <input id="empresa" type="text" maxlength="150" required />
+                <label for="empresa">Empresa *</label>
+            </div>
+
+            <div class="input-field col s12 m6">
+                <input id="identificacion" type="text" maxlength="20" required />
+                <label for="identificacion">Identificación *</label>
+            </div>
+
+            <div class="input-field col s12 m6">
+                <input id="nombres" type="text" maxlength="120" required />
+                <label for="nombres">Nombres *</label>
+            </div>
+
+            <div class="input-field col s12 m6">
+                <input id="apellidos" type="text" maxlength="120" required />
+                <label for="apellidos">Apellidos *</label>
+            </div>
+
+            <div class="input-field col s12 m6">
+                <input id="email" type="email" maxlength="160" />
+                <label for="email">Email</label>
+            </div>
+
+            <div class="input-field col s12 m6">
+                <input id="telefono" type="text" maxlength="30" />
+                <label for="telefono">Teléfono</label>
+            </div>
+
+            <div class="input-field col s12">
+                <input id="direccion" type="text" maxlength="200" />
+                <label for="direccion">Dirección</label>
+            </div>
+
+            <div class="input-field col s12 m6">
+                <input id="referido_por" type="text" maxlength="150" />
+                <label for="referido_por">Referido por</label>
+            </div>
+
+            <div class="input-field col s12 m6">
+                <input id="canal_referencia" type="text" maxlength="50" />
+                <label for="canal_referencia">Canal referencia</label>
+            </div>
+
+            <!-- Solo visual para editar (NO botón). Se guarda en PUT -->
+            <div class="input-field col s12 m6">
+                <select id="activo">
+                    <option value="true" selected>Vigente</option>
+                    <option value="false">Caducado</option>
+                </select>
+                <label>Cliente</label>
+            </div>
+        </form>
+    </div>
+
+    <div class="modal-footer">
+        <a class="modal-close btn-flat waves-effect">Cancelar</a>
+        <button id="btnGuardar" class="btn btn-primary waves-effect waves-light" type="submit" form="frmCliente">
+            <i class="material-icons left">save</i>Guardar
+        </button>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="./app.js"></script>
+</body>
+</html>
