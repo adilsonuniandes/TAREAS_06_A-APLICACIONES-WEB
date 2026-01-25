@@ -121,8 +121,9 @@ Responsabilidades:
 
 Ejecución:
 chmod +x launchers/semana_3.sh
-./launchers/semana_3.sh
-
+```bash
+sh ./launchers/semana_3.sh
+```
 ---
 
 ## URLs
