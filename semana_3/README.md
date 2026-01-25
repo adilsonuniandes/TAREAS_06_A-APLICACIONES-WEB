@@ -121,7 +121,7 @@ Responsabilidades:
 
 Ejecución:
 chmod +x launchers/semana_3_backend.sh
-./launchers/semana_3_backend.sh
+./launchers/semana_3.sh
 
 ---
 
