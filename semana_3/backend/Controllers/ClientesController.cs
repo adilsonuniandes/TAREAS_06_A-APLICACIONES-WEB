@@ -67,7 +67,6 @@ public class ClientesController : ControllerBase
         return NoContent();
     }
 
-    // ✅ DELETE real: borra de BD
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete(int id)
     {

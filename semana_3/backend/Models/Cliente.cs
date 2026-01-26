@@ -16,6 +16,6 @@ public class Cliente
     public string? ReferidoPor { get; set; }
     public string? CanalReferencia { get; set; }
 
-    public DateTime FechaRegistro { get; set; }   // <-- BD: fecha_registro
-    public bool Activo { get; set; }              // <-- BD: activo
+    public DateTime FechaRegistro { get; set; }
+    public bool Activo { get; set; }
 }

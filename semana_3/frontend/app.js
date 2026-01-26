@@ -139,7 +139,6 @@ class ClientesUI {
 
     setLoading(on) {
         this.loading.style.display = on ? "block" : "none";
-        // Mientras carga, NO muestre empty state para no confundir
         if (on) this.setEmpty(false);
     }
 

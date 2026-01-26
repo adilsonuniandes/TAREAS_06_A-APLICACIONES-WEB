@@ -179,7 +179,6 @@ WHERE cliente_id = @id;";
         return await cmd.ExecuteNonQueryAsync();
     }
 
-    // ✅ DELETE FÍSICO REAL (borra fila)
     public async Task<int> EliminarAsync(int id)
     {
         const string sql = @"DELETE FROM dbo.clientes WHERE cliente_id = @id;";
