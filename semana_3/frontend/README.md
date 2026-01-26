@@ -13,7 +13,6 @@ Incluye:
 - **DELETE real** (borra de la base de datos)
 - **Loading** controlado (se muestra solo cuando hay operación)
 - **Paginación** y **búsqueda**
-- Columna informativa **Cliente: Vigente / Caducado** (sin botón para activar/desactivar)
 
 ## Requisitos
 - Backend corriendo:
