@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Sistema de Gestión</title>
+    <link rel="stylesheet" href="./css/style.css" />
+    <script defer src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+
+<!-- ===================== -->
+<!-- INICIO DE SESIÓN -->
+<!-- ===================== -->
+<main id="vista_inicio" class="auth">
+    <section class="auth__card">
+        <div class="auth__brand">
+            <div class="auth__logo">SG</div>
+            <div>
+                <div class="auth__title">Sistema de Gestión</div>
+                <div class="auth__subtitle">Departamentos • Empleados • Asignaciones</div>
+            </div>
+        </div>
+
+        <h1 class="auth__h1">Inicio de sesión</h1>
+        <p class="muted">Use: admin/admin123, supervisor/supervisor123, empleado/empleado123</p>
+
+        <form id="form_inicio" class="form">
+            <label>
+                Usuario
+                <input id="usuario" autocomplete="username" required />
+            </label>
+
+            <label>
+                Contraseña
+                <input id="contrasena" type="password" autocomplete="current-password" required />
+            </label>
+
+            <button class="btn btn--primario" type="submit">Ingresar</button>
+        </form>
+
+        <div id="msg_inicio" class="muted" style="margin-top:10px"></div>
+    </section>
+</main>
+
+<!-- ===================== -->
+<!-- APLICACIÓN -->
+<!-- ===================== -->
+<div id="vista_app" class="app" hidden>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar__brand">
+            <div class="sidebar__logo">SG</div>
+            <div>
+                <div class="sidebar__title">Sistema de Gestión</div>
+                <div class="sidebar__meta" id="meta_usuario">—</div>
+            </div>
+        </div>
+
+        <nav class="nav">
+            <button class="nav__item" data-ruta="departamentos">Departamentos</button>
+            <button class="nav__item" data-ruta="empleados">Empleados</button>
+            <button class="nav__item" data-ruta="asignaciones">Asignaciones</button>
+
+            <!-- SOLO ADMIN -->
+            <button class="nav__item" data-ruta="usuarios" id="nav_usuarios" hidden>Usuarios</button>
+        </nav>
+
+        <div class="sidebar__footer">
+            <div class="pill" id="pill_roles">Roles: —</div>
+            <button class="btn btn--secundario" id="btn_cerrar">Cerrar sesión</button>
+        </div>
+    </aside>
+
+    <!-- MAIN -->
+    <section class="main">
+
+        <!-- TOPBAR -->
+        <header class="topbar">
+            <div>
+                <h2 id="titulo_modulo" class="topbar__title">—</h2>
+                <div id="subtitulo_modulo" class="topbar__subtitle muted">—</div>
+            </div>
+
+            <div class="topbar__actions" id="acciones_modulo">
+                <!-- botones dinámicos -->
+            </div>
+        </header>
+
+        <!-- CONTENIDO -->
+        <section class="content">
+            <div class="card">
+                <div id="tabla_wrapper"></div>
+            </div>
+        </section>
+
+    </section>
+</div>
+
+<!-- ===================== -->
+<!-- MODAL CREAR / EDITAR -->
+<!-- ===================== -->
+<div class="modal" id="modal" hidden>
+    <div class="modal__dialog">
+        <div class="modal__header">
+            <div>
+                <div class="modal__title" id="modal_titulo">—</div>
+                <div class="muted" id="modal_subtitulo">—</div>
+            </div>
+            <button class="iconbtn" id="modal_cerrar" aria-label="Cerrar">✕</button>
+        </div>
+
+        <form id="modal_form" class="modal__body form">
+            <!-- campos dinámicos -->
+        </form>
+
+        <div class="modal__footer">
+            <button class="btn btn--secundario" id="modal_cancelar" type="button">Cancelar</button>
+            <button class="btn btn--primario" id="modal_guardar" type="button">Guardar</button>
+        </div>
+    </div>
+</div>
+
+<script src="./js/app.js"></script>
+</body>
+</html>
