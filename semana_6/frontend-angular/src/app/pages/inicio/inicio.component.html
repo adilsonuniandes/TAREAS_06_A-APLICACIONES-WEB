@@ -1,0 +1,30 @@
+<main class="auth">
+  <section class="auth__card">
+    <div class="brand">
+      <div class="logo">SG</div>
+      <div>
+        <div class="title">Sistema de Gestión</div>
+        <div class="subtitle">Departamentos • Empleados • Asignaciones • Usuarios</div>
+      </div>
+    </div>
+
+    <h1 class="h1">Inicio de sesión</h1>
+    <p class="muted">Use: admin/admin123, supervisor/supervisor123, empleado/empleado123</p>
+
+    <form class="form" (submit)="$event.preventDefault(); ingresar();">
+      <label>
+        Usuario
+        <input [(ngModel)]="username" name="username" autocomplete="username" required />
+      </label>
+
+      <label>
+        Contraseña
+        <input [(ngModel)]="contrasena" name="contrasena" type="password" autocomplete="current-password" required />
+      </label>
+
+      <button class="btn btn--primario" type="submit" [disabled]="cargando">
+        {{ cargando ? 'Ingresando...' : 'Ingresar' }}
+      </button>
+    </form>
+  </section>
+</main>
