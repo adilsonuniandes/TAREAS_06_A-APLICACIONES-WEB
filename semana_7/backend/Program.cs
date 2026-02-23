@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Backend.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,14 +17,12 @@ builder.Services.AddScoped<IDepartamentoRepositorio, DepartamentoRepositorio>();
 builder.Services.AddScoped<IEmpleadoRepositorio, EmpleadoRepositorio>();
 builder.Services.AddScoped<IAsignacionRepositorio, AsignacionRepositorio>();
 
-
-
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
-        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+        options.JsonSerializerOptions.ReferenceHandler =
+            System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
     });
-
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -83,14 +80,18 @@ builder.Services
 
 builder.Services.AddAuthorization();
 
+/* ✅ CORS DEFINITIVO: permite localhost y 127.0.0.1 en cualquier puerto */
 builder.Services.AddCors(opciones =>
 {
     opciones.AddPolicy("politica_frontend", politica =>
     {
         politica
-            .WithOrigins("http://localhost:8080")
+            .SetIsOriginAllowed(origin =>
+                origin.StartsWith("http://localhost:") ||
+                origin.StartsWith("http://127.0.0.1:"))
             .AllowAnyHeader()
             .AllowAnyMethod();
+        // .AllowCredentials(); // solo si usas cookies con withCredentials
     });
 });
 
@@ -105,5 +106,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-app.Run();
 
+app.Run();

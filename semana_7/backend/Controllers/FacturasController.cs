@@ -16,6 +16,7 @@ namespace Backend.Controllers
             _db = db;
         }
 
+        // GET: /api/facturas
         [HttpGet]
         public async Task<ActionResult<IEnumerable<object>>> Listar()
         {
@@ -35,6 +36,7 @@ namespace Backend.Controllers
             return Ok(lista);
         }
 
+        // GET: /api/facturas/1/reporte
         [HttpGet("{facturaId:int}/reporte")]
         public async Task<ActionResult<FacturaReporteDto>> ObtenerReporte(int facturaId)
         {
@@ -68,8 +70,9 @@ namespace Backend.Controllers
                 },
                 Emisor = new EmisorDto
                 {
-                    Empleado = factura.Empleado != null ? $"{factura.Empleado.nombre} {factura.Empleado.apellido}" : null,
-                    Usuario = factura.Usuario != null ? factura.Usuario.username : null
+                    // ✅ CORREGIDO: PascalCase
+                    Empleado = factura.Empleado != null ? $"{factura.Empleado.Nombre} {factura.Empleado.Apellido}" : null,
+                    Usuario = factura.Usuario != null ? factura.Usuario.Username : null
                 },
                 Detalles = factura.Detalles.Select(d => new FacturaLineaDto
                 {

@@ -1,3 +1,7 @@
+SET ANSI_NULLS ON;
+SET QUOTED_IDENTIFIER ON;
+GO
+
 IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = 'evaluacion_parcial_1')
 BEGIN
     CREATE DATABASE evaluacion_parcial_1;
@@ -15,6 +19,7 @@ CREATE TABLE roles (
                        descripcion VARCHAR(150)
 );
 END
+GO
 
 IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'usuarios')
 BEGIN
@@ -26,6 +31,7 @@ CREATE TABLE usuarios (
                           fecha_creacion DATETIME NOT NULL DEFAULT GETDATE()
 );
 END
+GO
 
 IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'usuario_roles')
 BEGIN
@@ -37,6 +43,7 @@ CREATE TABLE usuario_roles (
                                CONSTRAINT fk_ur_rol FOREIGN KEY (rol_id) REFERENCES roles(rol_id)
 );
 END
+GO
 
 IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'departamentos')
 BEGIN
@@ -48,6 +55,7 @@ CREATE TABLE departamentos (
                                extension VARCHAR(10)
 );
 END
+GO
 
 IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'empleados')
 BEGIN
@@ -59,6 +67,7 @@ CREATE TABLE empleados (
                            telefono VARCHAR(20)
 );
 END
+GO
 
 IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'asignaciones')
 BEGIN
@@ -72,24 +81,21 @@ CREATE TABLE asignaciones (
                               CONSTRAINT uq_empleado_departamento UNIQUE (empleado_id, departamento_id)
 );
 END
-
-
-USE evaluacion_parcial_1;
 GO
 
 /* =========================
-   CLIENTES (opcional)
+   CLIENTES
    ========================= */
 IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'clientes')
 BEGIN
-    CREATE TABLE clientes (
-        cliente_id INT IDENTITY PRIMARY KEY,
-        identificacion VARCHAR(20) NOT NULL UNIQUE,   -- cédula/ruc/pasaporte
-        nombres VARCHAR(150) NOT NULL,
-        direccion VARCHAR(200),
-        telefono VARCHAR(20),
-        email VARCHAR(150)
-    );
+CREATE TABLE clientes (
+                          cliente_id INT IDENTITY PRIMARY KEY,
+                          identificacion VARCHAR(20) NOT NULL UNIQUE,
+                          nombres VARCHAR(150) NOT NULL,
+                          direccion VARCHAR(200),
+                          telefono VARCHAR(20),
+                          email VARCHAR(150)
+);
 END
 GO
 
@@ -98,27 +104,27 @@ GO
    ========================= */
 IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'facturas')
 BEGIN
-    CREATE TABLE facturas (
-        factura_id INT IDENTITY PRIMARY KEY,
-        numero_factura VARCHAR(30) NOT NULL UNIQUE,   -- ej: F001-000000123
-        fecha_emision DATETIME NOT NULL DEFAULT GETDATE(),
+CREATE TABLE facturas (
+                          factura_id INT IDENTITY PRIMARY KEY,
+                          numero_factura VARCHAR(30) NOT NULL UNIQUE,
+                          fecha_emision DATETIME NOT NULL DEFAULT GETDATE(),
 
-        cliente_id INT NULL,                          -- si no usas clientes, puedes dejar NULL
-        empleado_id INT NULL,                         -- quien emitió (si aplica)
-        usuario_id INT NULL,                          -- usuario del sistema (si aplica)
+                          cliente_id INT NULL,
+                          empleado_id INT NULL,
+                          usuario_id INT NULL,
 
-        subtotal DECIMAL(18,2) NOT NULL DEFAULT 0,
-        iva DECIMAL(18,2) NOT NULL DEFAULT 0,
-        descuento DECIMAL(18,2) NOT NULL DEFAULT 0,
-        total DECIMAL(18,2) NOT NULL DEFAULT 0,
+                          subtotal DECIMAL(18,2) NOT NULL DEFAULT 0,
+                          iva DECIMAL(18,2) NOT NULL DEFAULT 0,
+                          descuento DECIMAL(18,2) NOT NULL DEFAULT 0,
+                          total DECIMAL(18,2) NOT NULL DEFAULT 0,
 
-        estado VARCHAR(20) NOT NULL DEFAULT 'EMITIDA',  -- EMITIDA | ANULADA | PAGADA
-        observacion VARCHAR(250),
+                          estado VARCHAR(20) NOT NULL DEFAULT 'EMITIDA',
+                          observacion VARCHAR(250),
 
-        CONSTRAINT fk_factura_cliente FOREIGN KEY (cliente_id) REFERENCES clientes(cliente_id),
-        CONSTRAINT fk_factura_empleado FOREIGN KEY (empleado_id) REFERENCES empleados(empleado_id),
-        CONSTRAINT fk_factura_usuario FOREIGN KEY (usuario_id) REFERENCES usuarios(usuario_id)
-    );
+                          CONSTRAINT fk_factura_cliente FOREIGN KEY (cliente_id) REFERENCES clientes(cliente_id),
+                          CONSTRAINT fk_factura_empleado FOREIGN KEY (empleado_id) REFERENCES empleados(empleado_id),
+                          CONSTRAINT fk_factura_usuario FOREIGN KEY (usuario_id) REFERENCES usuarios(usuario_id)
+);
 END
 GO
 
@@ -127,22 +133,22 @@ GO
    ========================= */
 IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'factura_detalle')
 BEGIN
-    CREATE TABLE factura_detalle (
-        detalle_id INT IDENTITY PRIMARY KEY,
-        factura_id INT NOT NULL,
+CREATE TABLE factura_detalle (
+                                 detalle_id INT IDENTITY PRIMARY KEY,
+                                 factura_id INT NOT NULL,
 
-        descripcion VARCHAR(200) NOT NULL,  -- producto/servicio
-        cantidad DECIMAL(18,2) NOT NULL DEFAULT 1,
-        precio_unitario DECIMAL(18,2) NOT NULL DEFAULT 0,
+                                 descripcion VARCHAR(200) NOT NULL,
+                                 cantidad DECIMAL(18,2) NOT NULL DEFAULT 1,
+                                 precio_unitario DECIMAL(18,2) NOT NULL DEFAULT 0,
 
-        descuento_linea DECIMAL(18,2) NOT NULL DEFAULT 0,
-        iva_linea DECIMAL(18,2) NOT NULL DEFAULT 0,
+                                 descuento_linea DECIMAL(18,2) NOT NULL DEFAULT 0,
+                                 iva_linea DECIMAL(18,2) NOT NULL DEFAULT 0,
 
-        total_linea AS (
+                                 total_linea AS (
             (cantidad * precio_unitario) - descuento_linea + iva_linea
         ) PERSISTED,
 
-        CONSTRAINT fk_det_factura FOREIGN KEY (factura_id) REFERENCES facturas(factura_id)
-    );
+                                 CONSTRAINT fk_det_factura FOREIGN KEY (factura_id) REFERENCES facturas(factura_id)
+);
 END
 GO
