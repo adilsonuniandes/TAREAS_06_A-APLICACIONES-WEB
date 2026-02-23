@@ -16,7 +16,25 @@ namespace Backend.Controllers
             _db = db;
         }
 
-        // GET: /api/facturas/1/reporte
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<object>>> Listar()
+        {
+            var lista = await _db.Facturas
+                .AsNoTracking()
+                .OrderByDescending(f => f.FacturaId)
+                .Select(f => new
+                {
+                    facturaId = f.FacturaId,
+                    numeroFactura = f.NumeroFactura,
+                    fechaEmision = f.FechaEmision,
+                    estado = f.Estado,
+                    total = f.Total
+                })
+                .ToListAsync();
+
+            return Ok(lista);
+        }
+
         [HttpGet("{facturaId:int}/reporte")]
         public async Task<ActionResult<FacturaReporteDto>> ObtenerReporte(int facturaId)
         {
