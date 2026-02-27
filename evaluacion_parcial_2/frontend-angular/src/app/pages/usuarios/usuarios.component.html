@@ -1,0 +1,78 @@
+<section class="page" *ngIf="esAdmin">
+  <header class="top">
+    <div>
+      <h2>Usuarios</h2>
+      <div class="muted">Gestión de usuarios (solo administrador).</div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn--primario" (click)="nuevo()">Nuevo</button>
+    </div>
+  </header>
+
+  <div class="card">
+    <div class="toolbar">
+      <label class="grow">
+        Buscar
+        <input [(ngModel)]="filtro" (input)="pagina=1; aplicar()" placeholder="Escriba para filtrar..." />
+      </label>
+
+      <label>
+        Tamaño página
+        <select [(ngModel)]="tamPagina" (change)="pagina=1; aplicar()">
+          <option [ngValue]="5">5</option>
+          <option [ngValue]="10">10</option>
+          <option [ngValue]="15">15</option>
+          <option [ngValue]="20">20</option>
+          <option [ngValue]="50">50</option>
+        </select>
+      </label>
+
+      <button class="btn btn--secundario" (click)="cargar(true)">Refrescar</button>
+    </div>
+
+    <div *ngIf="cargando" class="muted">Cargando...</div>
+
+    <table class="table" *ngIf="!cargando && paginaLista.length">
+      <thead>
+      <tr>
+        <th>ID</th><th>Usuario</th><th>Activo</th><th>Roles</th>
+        <th style="width:260px">Acciones</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let u of paginaLista">
+        <td>{{u.usuarioId}}</td>
+        <td>{{u.username}}</td>
+        <td>{{u.activo ? 'Sí' : 'No'}}</td>
+        <td>{{rolesTexto(u)}}</td>
+        <td>
+          <div class="acciones">
+            <button class="btn btn--secundario" (click)="ver(u)">Ver</button>
+            <button class="btn btn--secundario" (click)="editar(u)">Editar</button>
+            <button class="btn btn--peligro" (click)="eliminar(u)">Eliminar</button>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="!cargando && !paginaLista.length" class="muted">No hay registros.</div>
+
+    <div class="pager" *ngIf="!cargando">
+      <div class="muted">Mostrando {{desde}}-{{hasta}} de {{total}}</div>
+      <div class="pager__btns">
+        <button class="btn btn--secundario" (click)="prev()" [disabled]="pagina===1">Anterior</button>
+        <div class="muted">Página <b>{{pagina}}</b> de <b>{{paginas}}</b></div>
+        <button class="btn btn--secundario" (click)="next()" [disabled]="pagina===paginas">Siguiente</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="page" *ngIf="!esAdmin">
+  <div class="card">
+    <h3>Acceso denegado</h3>
+    <div class="muted">Solo el administrador puede gestionar usuarios.</div>
+  </div>
+</section>

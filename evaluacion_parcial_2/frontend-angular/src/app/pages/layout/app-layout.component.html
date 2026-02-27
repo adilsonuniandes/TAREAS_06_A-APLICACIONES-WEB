@@ -1,0 +1,31 @@
+<div class="app">
+  <aside class="sidebar">
+    <div class="sb__brand">
+      <div class="sb__logo">SG</div>
+      <div>
+        <div class="sb__title">Sistema de Gestión</div>
+        <div class="sb__meta">Usuario: {{ ses.username() }}</div>
+      </div>
+    </div>
+
+    <nav class="nav">
+      <a class="nav__item" routerLink="/departamentos" routerLinkActive="activa">Departamentos</a>
+      <a class="nav__item" routerLink="/empleados" routerLinkActive="activa">Empleados</a>
+      <a class="nav__item" routerLink="/asignaciones" routerLinkActive="activa">Asignaciones</a>
+
+      <!-- SOLO ADMIN -->
+      <a class="nav__item" routerLink="/usuarios" routerLinkActive="activa" *ngIf="ses.esAdmin()">
+        Usuarios
+      </a>
+    </nav>
+
+    <div class="sb__footer">
+      <div class="pill">Roles: {{ ses.roles().join(', ') || '—' }}</div>
+      <button class="btn btn--secundario" (click)="cerrar()">Cerrar sesión</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <router-outlet></router-outlet>
+  </main>
+</div>
