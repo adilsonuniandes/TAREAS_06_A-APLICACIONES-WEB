@@ -1,73 +1,63 @@
-# Semana 6 
-## Sistema de Gestión de Empleados (Angular + .NET + SQL Server)
+# Evaluación Parcial 2 – Pregunta 10
+## Sistema de Gestión de Alquiler de Vehículos
 
-### Enunciado
-Sistema de Gestión de Empleados: Diseña un sistema usando .NET para gestionar departamentos y empleados, incluyendo asignaciones.
+### Descripción
 
-Tablas:
-- Departamentos (departamento_id, nombre, ubicacion, jefe_departamento, extension)
-- Empleados (empleado_id, nombre, apellido, email, telefono)
-- Asignaciones (asignacion_id, empleado_id, departamento_id, fecha_asignacion)
+Sistema desarrollado con **.NET y Angular** para gestionar vehículos, clientes y alquileres.
 
-Además:
-- Login simple.
-- Guardar nombre de usuario en localStorage.
-- Validar sesión desde el backend.
-- Roles: administrador, supervisor, empleado.
-- Solo el administrador puede gestionar usuarios (CRUD de usuarios).
+Tablas principales:
+
+- **Vehiculos** (vehiculo_id, marca, modelo, año, disponible)
+- **Clientes** (cliente_id, nombre, apellido, licencia, telefono)
+- **Alquileres** (alquiler_id, vehiculo_id, cliente_id, fecha_inicio, fecha_fin, activo)
+
+Incluye:
+
+- Login con JWT.
+- Protección de rutas.
+- CRUD de vehículos y clientes.
+- Creación y cierre de alquileres.
+- Reporte de alquileres con exportación CSV.
+- Solo el administrador puede gestionar usuarios.
 
 ---
 
-## Tecnologías utilizadas
-- Backend: .NET 8 (ASP.NET Core Web API), Entity Framework Core, JWT.
+## Tecnologías
+
+- Backend: .NET 8, Entity Framework Core, JWT.
 - Base de datos: SQL Server.
-- Frontend: Angular 19.0.4.
-- Comunicación: API REST + Bearer Token (JWT).
-- Infraestructura: Docker / Docker Compose.
-
-Nota importante:
-No se realizó el backend ejecutándolo de forma nativa en Windows, porque utilizo macOS (OSX). Para garantizar compatibilidad y ejecución estable, todo el backend y SQL Server se levantan con Docker.
+- Frontend: Angular.
+- Infraestructura: Docker.
 
 ---
 
-## Cómo levantar el ambiente
+## Cómo ejecutar
 
-### 1) Levantar infraestructura (SQL Server + Backend)
-Desde la raíz del repositorio (donde está el docker-compose):
+Levantar backend y base de datos:
 
 ```bash
-sh scripts/levantar_entorno.sh
+cd docker
+docker compose up -d --build
 sh scripts/crear_bd.sh
-sh scripts/sembrar_datos.sh
-sh scripts/sembrar_usuarios.sh
-sh scripts/compilar_backend.sh
+sh scripts/sembrar_datos.sh 
 ```
 
-## Backend (Swagger):
+Swagger:
+```html
+http://localhost:5001/swagger/index.html
+```
 
-http://localhost:5000/swagger
-
-## Levantar el frontend Angular
-
-Entrar a la carpeta del frontend Angular:
-
+Levantar frontend:
 ```bash
 cd frontend-angular
 npm install
-ng serve --port 4200 --open
+ng serve
 ```
 
-## Aplicación:
+Aplicación:
+```html
+http://localhost:4200/inicio
+```
 
-http://localhost:4200
-
----
-## Credenciales de prueba
-
-### Usuarios sembrados:
-
-admin / admin123 (rol: administrador)
-
-supervisor / supervisor123 (rol: supervisor)
-
-empleado / empleado123 (rol: empleado)
+Credenciales:
+admin/admin123
