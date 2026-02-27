@@ -141,7 +141,6 @@ public class AppDbContext : DbContext
         {
             e.ToTable("factura_detalle");
 
-            // ✅ CLAVE PRIMARIA OBLIGATORIA
             e.HasKey(x => x.DetalleId);
 
             e.Property(x => x.DetalleId).HasColumnName("detalle_id");
