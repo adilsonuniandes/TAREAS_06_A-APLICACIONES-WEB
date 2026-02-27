@@ -5,10 +5,11 @@ import { AdminGuard } from './core/admin.guard';
 import { InicioComponent } from './pages/inicio/inicio.component';
 import { AppLayoutComponent } from './pages/layout/app-layout.component';
 
-import { DepartamentosComponent } from './pages/departamentos/departamentos.component';
-import { EmpleadosComponent } from './pages/empleados/empleados.component';
-import { AsignacionesComponent } from './pages/asignaciones/asignaciones.component';
+import { VehiculosComponent } from './pages/vehiculos/vehiculos.component';
+import { ClientesComponent } from './pages/clientes/clientes.component';
+import { AlquileresComponent } from './pages/alquileres/alquileres.component';
 import { UsuariosComponent } from './pages/usuarios/usuarios.component';
+import { ReportesAlquileresComponent } from './pages/reportes-alquileres/reportes-alquileres.component';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'inicio' },
@@ -20,11 +21,12 @@ export const routes: Routes = [
     component: AppLayoutComponent,
     canActivate: [AuthGuard],
     children: [
-      { path: 'departamentos', component: DepartamentosComponent },
-      { path: 'empleados', component: EmpleadosComponent },
-      { path: 'asignaciones', component: AsignacionesComponent },
+      { path: 'vehiculos', component: VehiculosComponent },
+      { path: 'clientes', component: ClientesComponent },
+      { path: 'alquileres', component: AlquileresComponent },
+      { path: 'reportes-alquileres', component: ReportesAlquileresComponent },
       { path: 'usuarios', component: UsuariosComponent, canActivate: [AdminGuard] },
-      { path: '', pathMatch: 'full', redirectTo: 'departamentos' },
+      { path: '', pathMatch: 'full', redirectTo: 'vehiculos' },
     ]
   },
 

@@ -5,8 +5,7 @@ import { Observable } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class ApiService {
   private http = inject(HttpClient);
-
-  private baseUrl = 'http://localhost:5000';
+  private baseUrl = 'http://localhost:5001';
 
   get<T>(ruta: string): Observable<T> {
     return this.http.get<T>(`${this.baseUrl}${ruta}`);

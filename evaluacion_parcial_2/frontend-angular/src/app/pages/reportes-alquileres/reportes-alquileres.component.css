@@ -1,0 +1,28 @@
+.kpis{
+  display:grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.kpi__t{
+  font-size: 12px;
+  color: rgba(15,23,42,.60);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+
+.kpi__v{
+  font-size: 28px;
+  font-weight: 1000;
+  letter-spacing: -.02em;
+  margin-top: 6px;
+}
+
+.vacio{
+  text-align:center;
+  color: rgba(15,23,42,.60);
+  padding: 22px 14px;
+  font-weight: 800;
+}

@@ -1,6 +1,5 @@
-version: "3.9"
-
 services:
+
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
     container_name: sqlserver_evaluacion
@@ -16,13 +15,20 @@ services:
 
   backend:
     build:
-      context: ../backend
-      dockerfile: ../docker/backend/Dockerfile
+      context: ..
+      dockerfile: docker/backend/Dockerfile
     container_name: backend_evaluacion
     ports:
-      - "5000:8080"
+      - "5001:8080"
     depends_on:
       - sqlserver
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=evaluacion_parcial_2_db;User Id=sa;Password=Password123!;TrustServerCertificate=True;
+      - Jwt__Clave=CLAVE_SUPER_SECRETA_EVALUACION_2026_CAMBIAR_EN_PRODUCCION
+      - Jwt__Emisor=EvaluacionParcial2
+      - Jwt__Audiencia=EvaluacionParcial2Usuarios
+      - Jwt__MinutosExpiracion=120
     networks:
       - evaluacion_net
 
@@ -30,7 +36,7 @@ services:
     image: nginx:alpine
     container_name: frontend_evaluacion
     volumes:
-      - ../frontend:/usr/share/nginx/html
+      - ../frontend-angular/dist:/usr/share/nginx/html
     ports:
       - "8080:80"
     networks:

@@ -1,0 +1,46 @@
+<div class="sf-page">
+  <div class="sf-page-header">
+    <div>
+      <h2 class="sf-h2">Vehículos</h2>
+      <div class="sf-muted">Gestione el catálogo de vehículos y su disponibilidad.</div>
+    </div>
+
+    <div class="sf-actions">
+      <button class="btn btn--primario" type="button" (click)="nuevo()">Nuevo vehículo</button>
+    </div>
+  </div>
+
+  <div class="card p-3">
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Marca</th>
+          <th>Modelo</th>
+          <th>Año</th>
+          <th>Disponible</th>
+          <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let v of vehiculos">
+          <td>{{ v.vehiculoId }}</td>
+          <td>{{ v.marca }}</td>
+          <td>{{ v.modelo }}</td>
+          <td>{{ v.anio }}</td>
+          <td>
+            <span class="badge" [class.badge--ok]="v.disponible" [class.badge--no]="!v.disponible">
+              {{ v.disponible ? 'Disponible' : 'No disponible' }}
+            </span>
+          </td>
+          <td class="acciones">
+            <button class="btn btn--secundario" type="button" (click)="editar(v)">Actualizar</button>
+            <button class="btn btn--peligro" type="button" (click)="eliminar(v)">Eliminar</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

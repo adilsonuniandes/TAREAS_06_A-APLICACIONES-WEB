@@ -36,11 +36,11 @@ No se realizó el backend ejecutándolo de forma nativa en Windows, porque utili
 Desde la raíz del repositorio (donde está el docker-compose):
 
 ```bash
+sh scripts/levantar_entorno.sh
 sh scripts/crear_bd.sh
 sh scripts/sembrar_datos.sh
 sh scripts/sembrar_usuarios.sh
 sh scripts/compilar_backend.sh
-sh scripts/levantar_entorno.sh
 ```
 
 ## Backend (Swagger):

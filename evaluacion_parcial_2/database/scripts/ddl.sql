@@ -1,11 +1,15 @@
-IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = 'evaluacion_parcial_1')
+IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = 'evaluacion_parcial_2_db')
 BEGIN
-    CREATE DATABASE evaluacion_parcial_1;
+    CREATE DATABASE evaluacion_parcial_2_db;
 END
 GO
 
-USE evaluacion_parcial_1;
+USE evaluacion_parcial_2_db;
 GO
+
+/* =========================
+   TABLAS DE SEGURIDAD (LOGIN)
+   ========================= */
 
 IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'roles')
 BEGIN
@@ -15,6 +19,7 @@ CREATE TABLE roles (
                        descripcion VARCHAR(150)
 );
 END
+GO
 
 IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'usuarios')
 BEGIN
@@ -26,6 +31,7 @@ CREATE TABLE usuarios (
                           fecha_creacion DATETIME NOT NULL DEFAULT GETDATE()
 );
 END
+GO
 
 IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'usuario_roles')
 BEGIN
@@ -37,38 +43,52 @@ CREATE TABLE usuario_roles (
                                CONSTRAINT fk_ur_rol FOREIGN KEY (rol_id) REFERENCES roles(rol_id)
 );
 END
+GO
 
-IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'departamentos')
+
+/* =========================
+   TABLAS DEL SISTEMA
+   ========================= */
+
+IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'vehiculos')
 BEGIN
-CREATE TABLE departamentos (
-                               departamento_id INT IDENTITY PRIMARY KEY,
-                               nombre VARCHAR(100) NOT NULL,
-                               ubicacion VARCHAR(100),
-                               jefe_departamento VARCHAR(100),
-                               extension VARCHAR(10)
+CREATE TABLE vehiculos (
+                           vehiculo_id INT IDENTITY PRIMARY KEY,
+                           marca VARCHAR(100) NOT NULL,
+                           modelo VARCHAR(100) NOT NULL,
+                           anio INT NOT NULL,
+                           disponible BIT NOT NULL DEFAULT 1
 );
 END
+GO
 
-IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'empleados')
+IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'clientes')
 BEGIN
-CREATE TABLE empleados (
-                           empleado_id INT IDENTITY PRIMARY KEY,
-                           nombre VARCHAR(100) NOT NULL,
-                           apellido VARCHAR(100) NOT NULL,
-                           email VARCHAR(150) NOT NULL UNIQUE,
-                           telefono VARCHAR(20)
+CREATE TABLE clientes (
+                          cliente_id INT IDENTITY PRIMARY KEY,
+                          nombre VARCHAR(100) NOT NULL,
+                          apellido VARCHAR(100) NOT NULL,
+                          licencia VARCHAR(50) NOT NULL UNIQUE,
+                          telefono VARCHAR(20)
 );
 END
+GO
 
-IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'asignaciones')
+IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'alquileres')
 BEGIN
-CREATE TABLE asignaciones (
-                              asignacion_id INT IDENTITY PRIMARY KEY,
-                              empleado_id INT NOT NULL,
-                              departamento_id INT NOT NULL,
-                              fecha_asignacion DATETIME NOT NULL DEFAULT GETDATE(),
-                              CONSTRAINT fk_asig_empleado FOREIGN KEY (empleado_id) REFERENCES empleados(empleado_id),
-                              CONSTRAINT fk_asig_departamento FOREIGN KEY (departamento_id) REFERENCES departamentos(departamento_id),
-                              CONSTRAINT uq_empleado_departamento UNIQUE (empleado_id, departamento_id)
+CREATE TABLE alquileres (
+                            alquiler_id INT IDENTITY PRIMARY KEY,
+                            vehiculo_id INT NOT NULL,
+                            cliente_id INT NOT NULL,
+                            fecha_inicio DATETIME NOT NULL DEFAULT GETDATE(),
+                            fecha_fin DATETIME NULL,
+                            activo BIT NOT NULL DEFAULT 1,
+
+                            CONSTRAINT fk_alquiler_vehiculo
+                                FOREIGN KEY (vehiculo_id) REFERENCES vehiculos(vehiculo_id),
+
+                            CONSTRAINT fk_alquiler_cliente
+                                FOREIGN KEY (cliente_id) REFERENCES clientes(cliente_id)
 );
 END
+GO

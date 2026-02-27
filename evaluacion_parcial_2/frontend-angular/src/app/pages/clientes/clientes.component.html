@@ -1,0 +1,40 @@
+<div class="sf-page">
+  <div class="sf-page-header">
+    <div>
+      <h2 class="sf-h2">Clientes</h2>
+      <div class="sf-muted">Gestione los clientes registrados.</div>
+    </div>
+
+    <div class="sf-actions">
+      <button class="btn btn--primario" type="button" (click)="nuevo()">Nuevo cliente</button>
+    </div>
+  </div>
+
+  <div class="card p-3">
+    <table class="table">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Licencia</th>
+        <th>Teléfono</th>
+        <th>Acciones</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let c of clientes">
+        <td>{{ c.clienteId }}</td>
+        <td>{{ c.nombre }}</td>
+        <td>{{ c.apellido }}</td>
+        <td>{{ c.licencia }}</td>
+        <td>{{ c.telefono || '—' }}</td>
+        <td class="acciones">
+          <button class="btn btn--secundario" type="button" (click)="editar(c)">Actualizar</button>
+          <button class="btn btn--peligro" type="button" (click)="eliminar(c)">Eliminar</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

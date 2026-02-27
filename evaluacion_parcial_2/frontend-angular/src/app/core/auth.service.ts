@@ -10,9 +10,12 @@ export class AuthService {
   constructor(private api: ApiService, private sesion: SesionService) {}
 
   async iniciarSesion(username: string, contrasena: string): Promise<void> {
+    const body: any = { username, contrasena, password: contrasena };
+
     const data = await firstValueFrom(
-      this.api.post<RespLogin>('/api/autenticacion/iniciar-sesion', { username, contrasena })
+      this.api.post<RespLogin>('/api/autenticacion/iniciar-sesion', body)
     );
+
     this.sesion.guardar({ token: data.token, username: data.username, roles: data.roles || [] });
   }
 

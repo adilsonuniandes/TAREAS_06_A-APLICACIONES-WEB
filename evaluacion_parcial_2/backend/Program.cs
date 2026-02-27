@@ -13,9 +13,9 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 );
 
 builder.Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
-builder.Services.AddScoped<IDepartamentoRepositorio, DepartamentoRepositorio>();
-builder.Services.AddScoped<IEmpleadoRepositorio, EmpleadoRepositorio>();
-builder.Services.AddScoped<IAsignacionRepositorio, AsignacionRepositorio>();
+builder.Services.AddScoped<IVehiculoRepositorio, VehiculoRepositorio>();
+builder.Services.AddScoped<IClienteRepositorio, ClienteRepositorio>();
+builder.Services.AddScoped<IAlquilerRepositorio, AlquilerRepositorio>();
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
@@ -29,7 +29,7 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo
     {
-        Title = "Evaluación Parcial 1",
+        Title = "Evaluación Parcial 2",
         Version = "v1"
     });
 
@@ -39,8 +39,7 @@ builder.Services.AddSwaggerGen(c =>
         Type = SecuritySchemeType.Http,
         Scheme = "bearer",
         BearerFormat = "JWT",
-        In = ParameterLocation.Header,
-        Description = "Ingrese: Bearer {token}"
+        In = ParameterLocation.Header
     });
 
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -60,8 +59,7 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 var seccionJwt = builder.Configuration.GetSection("Jwt");
-var clave = seccionJwt["Clave"]
-    ?? throw new Exception("Falta Jwt:Clave en appsettings.json");
+var clave = seccionJwt["Clave"] ?? throw new Exception("Falta Jwt:Clave en appsettings.json");
 
 builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -75,8 +73,7 @@ builder.Services
             ValidateIssuerSigningKey = true,
             ValidIssuer = seccionJwt["Emisor"],
             ValidAudience = seccionJwt["Audiencia"],
-            IssuerSigningKey =
-                new SymmetricSecurityKey(Encoding.UTF8.GetBytes(clave))
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(clave))
         };
     });
 
@@ -87,10 +84,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("politica_frontend", policy =>
     {
         policy
-            .WithOrigins(
-                "http://localhost:4200",  // ANGULAR
-                "http://localhost:8080"   // JAVASCRIPT
-            )
+            .WithOrigins("http://localhost:4200", "http://localhost:8080")
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials();

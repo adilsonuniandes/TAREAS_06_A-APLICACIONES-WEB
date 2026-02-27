@@ -9,11 +9,11 @@
     </div>
 
     <nav class="nav">
-      <a class="nav__item" routerLink="/departamentos" routerLinkActive="activa">Departamentos</a>
-      <a class="nav__item" routerLink="/empleados" routerLinkActive="activa">Empleados</a>
-      <a class="nav__item" routerLink="/asignaciones" routerLinkActive="activa">Asignaciones</a>
+      <a class="nav__item" routerLink="/vehiculos" routerLinkActive="activa">Vehículos</a>
+      <a class="nav__item" routerLink="/clientes" routerLinkActive="activa">Clientes</a>
+      <a class="nav__item" routerLink="/alquileres" routerLinkActive="activa">Alquileres</a>
+      <a class="nav__item" routerLink="/reportes-alquileres" routerLinkActive="activa">Reportes</a>
 
-      <!-- SOLO ADMIN -->
       <a class="nav__item" routerLink="/usuarios" routerLinkActive="activa" *ngIf="ses.esAdmin()">
         Usuarios
       </a>
@@ -21,7 +21,7 @@
 
     <div class="sb__footer">
       <div class="pill">Roles: {{ ses.roles().join(', ') || '—' }}</div>
-      <button class="btn btn--secundario" (click)="cerrar()">Cerrar sesión</button>
+      <button class="btn btn--primario btn--full" type="button" (click)="cerrar()">Cerrar sesión</button>
     </div>
   </aside>
 

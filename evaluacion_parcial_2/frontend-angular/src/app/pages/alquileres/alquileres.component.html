@@ -1,0 +1,47 @@
+<div class="sf-page">
+  <div class="sf-page-header">
+    <div>
+      <h2 class="sf-h2">Alquileres</h2>
+      <div class="sf-muted">Cree y cierre alquileres.</div>
+    </div>
+
+    <div class="sf-actions">
+      <button class="btn btn--primario" type="button" (click)="nuevo()">Nuevo alquiler</button>
+    </div>
+  </div>
+
+  <div class="card p-3">
+    <table class="table">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Vehículo</th>
+        <th>Cliente</th>
+        <th>Inicio</th>
+        <th>Fin</th>
+        <th>Activo</th>
+        <th>Acciones</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let a of alquileres">
+        <td>{{ a.alquilerId }}</td>
+        <td>{{ nombreVehiculo(a.vehiculoId) }}</td>
+        <td>{{ nombreCliente(a.clienteId) }}</td>
+        <td>{{ a.fechaInicio | date:'yyyy-MM-dd' }}</td>
+        <td>{{ a.fechaFin ? (a.fechaFin | date:'yyyy-MM-dd') : '—' }}</td>
+        <td>
+          <span class="badge" [class.badge--ok]="a.activo" [class.badge--no]="!a.activo">
+            {{ a.activo ? 'Activo' : 'Cerrado' }}
+          </span>
+        </td>
+        <td class="acciones">
+          <button class="btn btn--secundario" type="button" (click)="cerrar(a)" [disabled]="!a.activo">
+            Cerrar
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

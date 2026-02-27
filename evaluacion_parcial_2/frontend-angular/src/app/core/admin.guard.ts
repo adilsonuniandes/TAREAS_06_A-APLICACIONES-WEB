@@ -8,7 +8,7 @@ export class AdminGuard implements CanActivate {
 
   canActivate(): boolean {
     if (this.ses.esAdmin()) return true;
-    this.router.navigate(['/departamentos']);
+    this.router.navigate(['/vehiculos']);
     return false;
   }
 }

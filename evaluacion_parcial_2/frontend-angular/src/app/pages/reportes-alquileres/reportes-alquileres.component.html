@@ -1,0 +1,65 @@
+<div class="sf-page">
+  <div class="sf-page-header">
+    <div>
+      <h2 class="sf-h2">Reportes de alquileres</h2>
+      <div class="sf-muted">Resumen general y exportación para presentación.</div>
+    </div>
+
+    <div class="sf-actions">
+      <button class="btn" type="button" (click)="cargar()">Recargar</button>
+      <button class="btn btn--primario" type="button" (click)="exportarCsv()">Exportar CSV</button>
+    </div>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi card p-3">
+      <div class="kpi__t">Total</div>
+      <div class="kpi__v">{{ total }}</div>
+    </div>
+
+    <div class="kpi card p-3">
+      <div class="kpi__t">Activos</div>
+      <div class="kpi__v">{{ activos }}</div>
+    </div>
+
+    <div class="kpi card p-3">
+      <div class="kpi__t">Cerrados</div>
+      <div class="kpi__v">{{ cerrados }}</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Vehículo</th>
+          <th>Cliente</th>
+          <th>Inicio</th>
+          <th>Fin</th>
+          <th>Activo</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let a of alquileres">
+          <td>{{ a.alquilerId }}</td>
+          <td>{{ a.vehiculoId }}</td>
+          <td>{{ a.clienteId }}</td>
+          <td>{{ a.fechaInicio | date:'yyyy-MM-dd' }}</td>
+          <td>{{ a.fechaFin ? (a.fechaFin | date:'yyyy-MM-dd') : '—' }}</td>
+          <td>
+              <span class="badge" [ngClass]="a.activo ? 'badge--ok' : 'badge--no'">
+                {{ a.activo ? 'Sí' : 'No' }}
+              </span>
+          </td>
+        </tr>
+
+        <tr *ngIf="alquileres.length === 0">
+          <td colspan="6" class="vacio">No hay alquileres para mostrar.</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
